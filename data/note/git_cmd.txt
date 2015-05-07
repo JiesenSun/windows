@@ -1,0 +1,53 @@
+一git config相关设置
+设置用户标识
+git config --global user.name "wxa"
+git config --global user.email "wxa@xxx"
+
+设置远程用户标识存贮方式
+git config --global credential.helper store    //记住
+git config --global credential.helper cache    //缓存
+git config credential.helper 'cache --timeout=3600' //设置缓存时间 单位s
+
+设置push模式  matching 
+git config --global push.default matching // 同名push
+git config --global push.default simple   // 当前分支push
+ps: 当提交修改到远程分支时，先使用pull更新在提交，防止提交出错。
+
+忽略跟踪文件.gitignore 
+1 以/结尾表示目录， 仅仅表示目录自身，不包含其子项
+2 支持统配符：* 0个或多个字符  ? 单个字符  [] 单个字符的匹配列表；
+3 !k开头不忽略(跟踪)匹配到的文件或目录
+注意:
+1 xxx/* 表示以xxx/开头的所有文件，并不是表示xxx目录下的所有项。 首行优先级大于末行
+2 即时生效，无需提交
+3 对已添加的无效
+
+===================================常用命令==================================
+git add filename...   // 添加文件索引，只有建立了文件索引才可以直接git commit提交
+git rm  filename...   // 删除库文件不会删除索引，相对于对文件作修改 需commit才会真正从库删除
+git commit [filename] // 提交已建立索引文件到本地库，若文件索引建立后，文件被修改需要再次建立(git add)或使用-a选项
+git clone URL...      // 克隆远程库
+git remote add URL... // 在已库基础上添加远程库  
+git push repos_name branch_name // 本地库文件上传到远程库中  -u --建立关联 避免总填写库名和分支名--  git push :branch  删除远程分支 git push :refs/tags/name 删除远程tag
+git diff filename     // 对比库文件
+git reset --hard commit_id // 回退到上一个版本 HEAD^上个版本 HEAD^^上上个版本 HEAD~N 上N个版本
+git reflog            // 查看版本命令历史
+git log               // 查看提交命令历史
+git reset HEAD file... // 去除索引 即从暂存区移除
+git checkout -- file... // 撤销修改 优先比较暂存区与本地，若暂存区无，再比较库与本地
+ssh-keygen -t rsa -C "765485868@qq.com"    // 生成ssh key
+git checkout -b b_name... // 创建并切换分支 相当于 git branch b_name   git checkout b_name
+git branch b_name      // 创建分支 ps：创建分支都是从当前分支进行克隆
+git checkout b_name    // 切换分支
+git branch            // 查看当前分支   分支操作使用此命令加选项(-d 删除 —D 可删除未合并分支) checkout 只是切换(-b不存在会创建)
+git merge b_name       // 合并当前分支与指定分支  --no-ff -m “commit_msg” 为此次合并做提交记录
+git --graph --pretty=oneline --abbrev-commit // 查看分支合并情况
+git stash             // 隐藏工作现场
+git stash pop         // 恢复隐藏并删除  相当于 git stash apply  git stash drop
+git stash list        // 查看隐藏列表  git stash apply stash@{0} 恢复指定隐藏
+git tag <name> [commit_id]       // 创建标签  -a 指定标签名 -m 标签描述 -s标签签名 -d删除标签
+git push origin tagname // 推送标签   git push origin --tags 推送全部未推送标签
+git config --global color.ui true  // 显示命令颜色
+git config --global alias.unstage 'reset HEAD'  // 配置别名   .git/config 配置文件位置
+
+
