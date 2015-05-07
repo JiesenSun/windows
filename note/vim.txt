@@ -1,0 +1,90 @@
+============set optional===========
+set nu         //显示行号                                        number
+set rnu        //显示相对行号 cursor行为0 上下行依次递增         relativenumber
+set numberwidth // 设置行号宽度
+set wrap        // 超过窗口宽度自动换行
+set textwidth   // 设置每行文本宽度
+let mapleader=“,”     //映射前缀
+let maplocalleader="," //指定的文件类型有效
+set showtabline = 1     //标签页   help tab-page
+
+
+
+======================autocmd======================
+autocmd event pattern cmd //event为监控的事件  pattern针对事件过滤的模式  cmd执行的命令  多事件用逗号隔开
+event:BufNewFile,BufRead,BufWritePre
+evnet:FileType xxx        //help autocmd-events
+autocmd命令会复制，每次刷新配置文件都将命令复制一份，当事件发生后动作会执行多次， 解决方法：autocmd!
+==================autocmd组========================
+augroup testgroup
+autocmd!       //清除之前的同名组消除复制，没有这个会之前同名组组合
+autocmd xxxx
+autocmd xxxx
+augroup END   
+
+
+
+
+
+
+
+===============command==================
+echo          //底行回显
+echom         //底行回显并缓存 可用message查看
+message           //查看缓存输出
+map,nmap,imap,vmap,omap  //设置快捷键    unmap,nnumap...//取消快捷键    noremap，nnoremap...//非递归快捷键    <buffer>局部映射 <nop>无操作键   omap==operator-pending mapping
+iabbrev [<buffer>] adn and     //插入模式缩写  插入模式输入adn再敲空格回自动替换成and   []内容为选
+set, setlocal  //设置选项值
+execute “string”  //串当命令执行
+normal xxxx    //在normal模式敲击xxxx
+normal! xxxx   //忽略xxxx的映射 作用类似normal xxxx   且不能解析<cr>回车键（execute "normal! gg/foo\<cr>dd"  可解决此问题）
+
+
+
+==================================variable=====================================
+let &number                //optional variable
+let &l:number              //local optional
+let @a = "hello"           //register variable    @"复制存的寄存器变量  @/搜索/xxx时用
+//字符串转整形：以数字开头正确转换开头连续数字，否则得0
+//help internal-variables
+==================================condition====================================
+if condition xxx endif      
+if condition xxx elseif xxx else xxx endif
+//set ignorecase 控制是否大小写敏感，用作比较
+==? //大小写不敏感比较  忽略set ignorecase
+==# //大小写敏感比较  忽略set ignorecase         help expr4
+===================================function====================================
+1 函数定义
+function Meow()     //函数必须以大写字母开头
+	echo "hello world"   
+endfunction         //默认返回0
+function GetMeow()
+	return "hello world"
+endfunction
+call Meow()  echo GetMeow() //函数调用
+call GetMeow() //不显示内容， call 调用是将函数看做表达式
+2 函数参数
+function DisplayName(name)
+	ehco "hi, my name is "
+	echo a:name         //使用方法a:argname
+endfunction
+3 可变参数---只读变量
+function Args(foo,...)
+	echo a:foo        // foo第一参数可选
+	echo a:0          // 可变参数的数量 
+	echo a:1          // 可变参数的第一个参数  a:N依次类推
+	echo a:000        // 可变参数列表，仅在echo时被设置可变参数列表  echom时为空
+endfunction
+==========================string====================
+echo 'that''s enough'   // this's enough  ''特例
+ehco '//'               // /   ''不解析特殊字符 字面意义串 
+echo "//"               // //   ""解析特殊字符
+ps: . + 连接串
+
+
+==========================================function API========================================
+substitute                              // s/xx/xx/g 替换命令
+
+
+==========================help==========================
+help scrolling    //文本的移动

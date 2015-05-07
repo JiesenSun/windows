@@ -1,0 +1,16 @@
+====================ubantu install mysql===============
+1 sudo apt-get update                                // 更新包源 
+2 sudo apt-get install mysql-server  mysql-client    // 安装
+3 sudo service mysql restart                         // 验证是否安装成功
+4 mysql -u root -p                                   // 登陆
+
+======================command=====================
+1 连接数据库 mysql -u username -p pwd -h hostname -P port -D database
+2 显示数据库 show databases;
+3 使用数据库 use database_name;
+4 显示表     show tables;
+5 插叙表结构 1 desc(describe) 表名;
+             2 show columns from 表名;
+             3 show create table 表名;  // 显示相关sql语句
+			 4 use information_schema; select * form columns where table_name='t_name';
+
