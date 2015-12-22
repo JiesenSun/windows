@@ -5,22 +5,24 @@ package com.example;
  */
 public class Main {
     public static void main(String []args) {
-        Socket client = new Socket();
+        //Client client = new Client("100000", "test", "192.168.20.51", 9101);
+        Client client = new Client("1000000", "test", "127.0.0.1", 9100);
 
-        if (false == client.connect("192.168.20.51", 9100)) {
-            System.out.println("connect server failed!!!");
+        if (false == client.connect()) {
+            System.out.println("connect server failed");
             return;
         }
-        System.out.println("connect server success...");
-        Socket.DataPackage dataPackage = client.recv();
-        System.out.println(dataPackage);
-        client.start();
-        client.send(dataPackage);
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+
+        if (false == client.heartbeat()) {
+            System.out.println("client send heartbeat failed");
+            return;
         }
-        client.close();
+        if (false == client.login()) {
+            System.out.println("login failed");
+            return ;
+        }
+
+        System.out.println("login success");
+        return;
     }
 }
