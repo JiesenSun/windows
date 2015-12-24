@@ -9,6 +9,8 @@ import net.sf.json.JSONObject;
 public class Client {
     public String username;
     public String password;
+    private long userID;
+    private int  sessionID;
     private  Socket socket;
 
     public Client(String username, String password) {
@@ -58,7 +60,7 @@ public class Client {
     public boolean login() {
         Socket.DataPackage dataPackage = new Socket().new DataPackage();
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("uid", username);
+        jsonObject.put("uid", Integer.parseInt(username));
         jsonObject.put("password", password);
 
         dataPackage.packageBody = jsonObject.toString().getBytes();
@@ -73,7 +75,17 @@ public class Client {
         if (dataPackage == null || dataPackage.errorCode != 0) {
             return false;
         }
+        System.out.println(dataPackage);
 
+        jsonObject = JSONObject.fromObject(new String(dataPackage.packageBody));
+        try {
+            this.userID = jsonObject.getLong("uid");
+            this.sessionID = jsonObject.getInt("sid");
+            System.out.printf("uid = %d sid = %d%n", this.userID, this.sessionID);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
         return true;
     }
 }
