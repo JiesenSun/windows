@@ -3,7 +3,9 @@ package com.example.wuxiangan.xxx;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +21,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.text.method.KeyListener;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -27,8 +30,10 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,13 +53,6 @@ public class LoginActivity extends AppCompatActivity {
     private static final int REQUEST_READ_CONTACTS = 0;
 
     /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
-    /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     private UserLoginTask mAuthTask = null;
@@ -64,17 +62,49 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-    private String mSpPhoneKey = "phone_number";
+    private static final String mSpPhoneKey = "phone_number";
+    private static final String mSpLastPhoneKey = "last_phone_number";
+    private static final String mSpLastPasswordKey = "last_password";
+    private static final String mSpRememberPsdKey = "remember_password";
+    private static final String mSpAutoLoginKey = "auto_login";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        // Set up the login form.
-        List<String> phonelist = SpUtil.getInstance().getStrings(mSpPhoneKey);
+
+        initView();
+    }
+    private void initView() {
+        // 加载资源
+        final CheckBox rememberPsdView = (CheckBox)findViewById(R.id.remember_psd);
+        final CheckBox autoLoginView = (CheckBox)findViewById(R.id.auto_login);
         mPhoneView = (AutoCompleteTextView) findViewById(R.id.phone);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(LoginActivity.this, R.layout.support_simple_spinner_dropdown_item, phonelist);
-        mPhoneView.setAdapter(adapter);
         mPasswordView = (EditText) findViewById(R.id.password);
+        mLoginFormView = findViewById(R.id.login_form);
+        mProgressView = findViewById(R.id.login_progress);
+        final Button mPhoneSignInButton = (Button) findViewById(R.id.phone_sign_in_button);
+        // 设置监听
+        rememberPsdView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SpUtil.getSharedPreference().edit().putBoolean(mSpRememberPsdKey, rememberPsdView.isChecked()).commit();
+            }
+        });
+        autoLoginView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SpUtil.getSharedPreference().edit().putBoolean(mSpAutoLoginKey, autoLoginView.isChecked()).commit();
+            }
+        });
+        mPhoneSignInButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mPhoneSignInButton.setBackgroundColor(Color.DKGRAY);
+                attemptLogin();
+            }
+        });
+
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -86,18 +116,37 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        Button mPhoneSignInButton = (Button) findViewById(R.id.phone_sign_in_button);
-        mPhoneSignInButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptLogin();
+        // 初始化界面数据
+        // Set up the login form
+        SharedPreferences sp = SpUtil.getSharedPreference();
+        boolean rememberPsd = sp.getBoolean(mSpRememberPsdKey, false);
+        boolean autoLogin = sp.getBoolean(mSpAutoLoginKey, false);
+        String lastPhoneNumber = sp.getString(mSpLastPhoneKey, "");
+        String lastPassword = sp.getString(mSpLastPasswordKey, "");
+        List<String> phonelist = SpUtil.getInstance().getStrings(mSpPhoneKey);
+        // 设置checkbox
+        rememberPsdView.setChecked(rememberPsd);
+        autoLoginView.setChecked(autoLogin);
+        // 自动登录
+        if (rememberPsd && autoLogin && !TextUtils.isEmpty(lastPhoneNumber) && !TextUtils.isEmpty(lastPassword)) {
+            attemptLogin();
+            return;
+        }
+        // 设置账号匹配
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(LoginActivity.this, R.layout.support_simple_spinner_dropdown_item, phonelist);
+        mPhoneView.setAdapter(adapter);
+        mPhoneView.setText(lastPhoneNumber);
+        // 若记住密码，则登录设置密码
+        if (rememberPsd) {
+            mPasswordView.setText(lastPassword);
+        }
+        // 已存在账户，聚焦密码
+        if (false == TextUtils.isEmpty(lastPhoneNumber)) {
+            if (!rememberPsd || TextUtils.isEmpty(lastPassword)) {
+                mPasswordView.requestFocus();
             }
-        });
-
-        mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
+        }
     }
-
     /**
      * Attempts to sign in or register the account specified by the login form.
      * If there are form errors (invalid Phone, missing fields, etc.), the
@@ -221,14 +270,6 @@ public class LoginActivity extends AppCompatActivity {
                 return false;
             }
 
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mPhone)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
             // TODO: register the new account here.
             return true;
         }
@@ -240,10 +281,16 @@ public class LoginActivity extends AppCompatActivity {
 
             if (success) {
                 SpUtil.getInstance().putStrings(mSpPhoneKey, mPhone);
-                finish();
+                SpUtil.getSharedPreference().edit().putString(mSpLastPhoneKey, mPhone);
+                SpUtil.getSharedPreference().edit().putString(mSpLastPasswordKey, mPassword).commit();
+                // 执行页面跳转
+                //finish();
+                Toast.makeText(MyApplication.getInstance().getApplicationContext(), "等陆成功", Toast.LENGTH_SHORT).show();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
+                Toast.makeText(MyApplication.getInstance().getApplicationContext(), "等陆失败", Toast.LENGTH_SHORT).show();
+
             }
         }
 

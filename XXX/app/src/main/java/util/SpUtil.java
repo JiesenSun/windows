@@ -13,20 +13,15 @@ import java.util.List;
  * Created by wuxiangan on 2015/12/24.
  */
 public class SpUtil {
-    public String mSeparator = "$";
-    public final String mDefaultSPName = "default_shared_preferences";
+    public static final String mSeparator = "$";
+    public static final String mDefaultSPName = "default_shared_preferences";
 
-    public Context context = MyApplication.getInstance().getApplicationContext();
-    public static SharedPreferences mSPInstance = null;
-    public static SpUtil mInstance = null;
-    public SpUtil() {
-        mSPInstance = context.getSharedPreferences(mDefaultSPName, Context.MODE_PRIVATE);
-    }
+    public static Context context = MyApplication.getInstance().getApplicationContext();
+    public static SharedPreferences mSPInstance = context.getSharedPreferences(mDefaultSPName, Context.MODE_PRIVATE);
+    public static SpUtil mInstance =  new SpUtil();
+    public SpUtil() {}
 
     public static SpUtil getInstance() {
-        if (mInstance == null) {
-            mInstance = new SpUtil();
-        }
         return mInstance;
     }
 
@@ -54,6 +49,9 @@ public class SpUtil {
 
     public void putStrings(String key, String value) {
         String oldValue = mSPInstance.getString(key, "");
+        if (oldValue.contains(value)) {
+            return;
+        }
         if (false == TextUtils.isEmpty(oldValue)) {
             value = oldValue + mSeparator + value;
         }
