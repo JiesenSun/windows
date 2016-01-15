@@ -25,4 +25,12 @@ public class Config {
         }
         return password;
     }
+    public static void setUsername(String username) {
+        Config.username = username;
+        SpUtil.getSharedPreference().edit().putString(usernameKey, username).commit();
+    }
+    public static void setPassword(String password) {
+        Config.password = password;
+        SpUtil.getSharedPreference().edit().putString(passwordKey,password).commit();
+    }
 }

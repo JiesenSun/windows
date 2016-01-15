@@ -1,21 +1,16 @@
 package ui.base;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.wuxiangan.bangbang.R;
-
-import java.util.concurrent.ConcurrentHashMap;
 
 import util.ActivityCollector;
 
@@ -23,23 +18,22 @@ import util.ActivityCollector;
  * Created by wuxiangan on 2016/1/15.
  */
 public class TitleLayout extends LinearLayout{
-    public Button titleLeft;
-    public Button titleRight;
+    public TextView titleLeft;
+    public TextView titleRight;
     public TextView middleText;
-    private static Activity activity=null;
+
     public TitleLayout(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
         LayoutInflater.from(context).inflate(R.layout.title_layout, this);
 
-        titleLeft = (Button)findViewById(R.id.title_left);
-        titleRight = (Button)findViewById(R.id.title_right);
+        titleLeft = (TextView)findViewById(R.id.title_left);
+        titleRight = (TextView)findViewById(R.id.title_right);
         middleText = (TextView)findViewById(R.id.title_text);
         titleLeft.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                TitleLayout.activity = (Activity)getContext();
                 if (ActivityCollector.activityNum() == 2) {
-                    AlertDialog.Builder dialog = new AlertDialog.Builder(TitleLayout.activity);
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
                     dialog.setTitle(R.string.exit_tip);
                     dialog.setCancelable(false);
                     dialog.setPositiveButton(R.string.OK, new DialogInterface.OnClickListener() {
@@ -62,6 +56,19 @@ public class TitleLayout extends LinearLayout{
         });
     }
 
+    public void setVisible(boolean leftVisible, boolean rightVisible) {
+        if (leftVisible) {
+            titleLeft.setVisibility(VISIBLE);
+        } else {
+            titleLeft.setVisibility(INVISIBLE);
+        }
+
+        if (rightVisible) {
+            titleRight.setVisibility(VISIBLE);
+        } else {
+            titleRight.setVisibility(INVISIBLE);
+        }
+    }
     public void setTitleLeft(CharSequence text) {
         titleLeft.setText(text);
     }

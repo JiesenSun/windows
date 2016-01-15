@@ -10,9 +10,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="@string/user_name_input_tip"
+            android:hint="@string/phonenumber_input_tip"
             android:gravity="center"
-            android:singleLine="true"/>
+            android:singleLine="true"
+            android:numeric="integer"
+            android:maxLength="11"
+            android:id="@+id/username_et"/>
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -28,7 +31,8 @@
             android:hint="@string/password_input_tip"
             android:gravity="center"
             android:singleLine="true"
-            android:password="true"/>
+            android:password="true"
+            android:id="@+id/password_et"/>
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -40,6 +44,7 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/login"/>
+            android:text="@string/login"
+            android:id="@+id/login_btn"/>
     </LinearLayout>
 </LinearLayout>

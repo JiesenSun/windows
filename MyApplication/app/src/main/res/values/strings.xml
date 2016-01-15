@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Test</string>
-    <string name="user_name_input_tip">请输入电话号码</string>
+    <string name="phonenumber_input_tip">请输入电话号码</string>
     <string name="password_input_tip">请输入密码</string>
     <string name="back">返回</string>
     <string name="register">注册</string>
@@ -9,4 +9,10 @@
     <string name="exit_tip">退出应用程序???</string>
     <string name="OK">确定</string>
     <string name="CANCEL">取消</string>
+
+
+
+    <string name="password_fmt_error">密码只能由6-20位字母或数字组成</string>
+    <string name="phonenumber_fmt_error">电话号码格式错误</string>
+    <string name="password_error">密码错误</string>
 </resources>

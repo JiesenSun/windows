@@ -4,14 +4,15 @@
     android:layout_height="wrap_content"
     android:background="#000">
 
-        <Button
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/title_left"
             android:layout_gravity="center"
             android:layout_margin="5dp"
             android:text="Back"
-            android:textColor="#fff"/>
+            android:textColor="#fff"
+            android:textSize="20sp"/>
 
         <TextView
             android:layout_width="0dp"
@@ -24,13 +25,14 @@
             android:textColor="#fff"
             android:textSize="24sp"/>
 
-        <Button
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/title_right"
             android:layout_gravity="center"
             android:layout_margin="5dp"
             android:text="confirm"
-            android:textColor="#fff"/>
+            android:textColor="#fff"
+            android:textSize="20sp"/>
 
 </LinearLayout>
