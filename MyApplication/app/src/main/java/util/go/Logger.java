@@ -13,12 +13,14 @@ public class Logger extends Client.Logger.Stub {
     private static final int LOG_LEVEL_DEBUG = 0;
     private static final int LOG_LEVEL_INFO = 1;
     private static final int LOG_LEVEL_WARN = 2;
-    private static final int LOG_LEVEL_FATAL =3;
-
-    private boolean debug = true;
+    private static final int LOG_LEVEL_FATAL = 3;
+    private static final int LOG_LEVEL_MAX = 4;
+    private int level = 0;
     private Socket socket;
     private String identify;
-    private void Debug(boolean debug) { this.debug = debug; }
+
+    private void setLevel(int level) {this.level = level; }
+
     public boolean connect(String ip, long port) {
         if (socket != null) {
             socket.close();
@@ -32,7 +34,7 @@ public class Logger extends Client.Logger.Stub {
         socket = null;
     }
     public void send(int level, String content) {
-        if (debug == false) {
+        if (this.level > level) {
             return;
         }
 
