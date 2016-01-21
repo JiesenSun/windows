@@ -2,7 +2,7 @@ package client;
 
 import java.nio.ByteBuffer;
 
-import protocol.BaseData;
+import socket.java_socket.BaseData;
 
 /**
  * Created by wuxiangan on 2016/1/5.

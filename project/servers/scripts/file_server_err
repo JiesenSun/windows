@@ -1,0 +1,96 @@
+2015/12/21 15:01:03 INF    1 (127.0.0.1:4150) connecting to nsqd
+panic: Error 1049: Unknown database 'dudb'
+
+goroutine 1 [running]:
+sirendaou.com/duserver/common/mysql.Init(0xc20801f40d, 0x9, 0xc20815e85b, 0x4, 0xc20801f42d, 0x4, 0xc20801f44c, 0x9, 0x2)
+	/home/wuxiangan/goserver/src/sirendaou.com/duserver/common/mysql/mysql.go:53 +0x249
+sirendaou.com/duserver/common.MysqlInit(0xc20801f40d, 0x9, 0xc20815e85b, 0x4, 0xc20801f42d, 0x4, 0xc20801f44c, 0x9)
+	/home/wuxiangan/goserver/src/sirendaou.com/duserver/common/init.go:167 +0x7d
+sirendaou.com/duserver/common.init·1()
+	/home/wuxiangan/goserver/src/sirendaou.com/duserver/common/init.go:142 +0xa8
+sirendaou.com/duserver/common.init()
+	/home/wuxiangan/goserver/src/sirendaou.com/duserver/common/init.go:211 +0x1273
+sirendaou.com/duserver/file_server.init()
+	/home/wuxiangan/goserver/src/sirendaou.com/duserver/file_server/upload.go:41 +0x4a
+main.init()
+	/home/wuxiangan/xiaoyaole/src/project/servers/file_server.go:11 +0x42
+
+goroutine 5 [chan receive]:
+github.com/golang/glog.(*loggingT).flushDaemon(0xc638a0)
+	/home/wuxiangan/goserver/src/github.com/golang/glog/glog.go:879 +0x78
+created by github.com/golang/glog.init·1
+	/home/wuxiangan/goserver/src/github.com/golang/glog/glog.go:410 +0x2a7
+
+goroutine 17 [syscall, locked to thread]:
+runtime.goexit()
+	/usr/local/go/src/runtime/asm_amd64.s:2232 +0x1
+
+goroutine 7 [chan receive]:
+github.com/bitly/go-nsq.(*Producer).sendCommand(0xc208054400, 0xc208032af0, 0x0, 0x0)
+	/home/wuxiangan/goserver/src/github.com/bitly/go-nsq/producer.go:205 +0xf7
+github.com/bitly/go-nsq.(*Producer).Publish(0xc208054400, 0x9d61f0, 0xb, 0xc20805c1b0, 0x7a, 0x8b, 0x0, 0x0)
+	/home/wuxiangan/goserver/src/github.com/bitly/go-nsq/producer.go:185 +0x1d7
+sirendaou.com/duserver/common/syslog.(*nsqdLogMgr).run(0xc208032140, 0x0)
+	/home/wuxiangan/goserver/src/sirendaou.com/duserver/common/syslog/nsqd_client.go:84 +0x3b2
+created by sirendaou.com/duserver/common/syslog.(*nsqdLogMgr).Init
+	/home/wuxiangan/goserver/src/sirendaou.com/duserver/common/syslog/nsqd_client.go:61 +0x853
+
+goroutine 8 [select]:
+sirendaou.com/duserver/common/syslog.(*nsqdLogMgr).run(0xc208032140, 0x1)
+	/home/wuxiangan/goserver/src/sirendaou.com/duserver/common/syslog/nsqd_client.go:73 +0x52e
+created by sirendaou.com/duserver/common/syslog.(*nsqdLogMgr).Init
+	/home/wuxiangan/goserver/src/sirendaou.com/duserver/common/syslog/nsqd_client.go:61 +0x853
+
+goroutine 9 [select]:
+sirendaou.com/duserver/common/syslog.func·002()
+	/home/wuxiangan/goserver/src/sirendaou.com/duserver/common/syslog/log.go:244 +0x334
+created by sirendaou.com/duserver/common/syslog.SysLogInit
+	/home/wuxiangan/goserver/src/sirendaou.com/duserver/common/syslog/log.go:256 +0x37c
+
+goroutine 10 [chan receive]:
+database/sql.(*DB).connectionOpener(0xc20804ebe0)
+	/usr/local/go/src/database/sql/sql.go:589 +0x4c
+created by database/sql.Open
+	/usr/local/go/src/database/sql/sql.go:452 +0x31c
+
+goroutine 11 [IO wait]:
+net.(*pollDesc).Wait(0xc208091f00, 0x72, 0x0, 0x0)
+	/usr/local/go/src/net/fd_poll_runtime.go:84 +0x47
+net.(*pollDesc).WaitRead(0xc208091f00, 0x0, 0x0)
+	/usr/local/go/src/net/fd_poll_runtime.go:89 +0x43
+net.(*netFD).Read(0xc208091ea0, 0xc208194000, 0x1000, 0x1000, 0x0, 0x7f00478e2e98, 0xc208179140)
+	/usr/local/go/src/net/fd_unix.go:242 +0x40f
+net.(*conn).Read(0xc20802e100, 0xc208194000, 0x1000, 0x1000, 0x0, 0x0, 0x0)
+	/usr/local/go/src/net/net.go:121 +0xdc
+bufio.(*Reader).fill(0xc20804ca80)
+	/usr/local/go/src/bufio/bufio.go:97 +0x1ce
+bufio.(*Reader).Read(0xc20804ca80, 0xc208179138, 0x4, 0x8, 0x0, 0x0, 0x0)
+	/usr/local/go/src/bufio/bufio.go:174 +0x26c
+github.com/bitly/go-nsq.(*Conn).Read(0xc2081766c0, 0xc208179138, 0x4, 0x8, 0xc208179130, 0x0, 0x0)
+	/home/wuxiangan/goserver/src/github.com/bitly/go-nsq/conn.go:243 +0x11a
+io.ReadAtLeast(0x7f00478e4dc8, 0xc2081766c0, 0xc208179138, 0x4, 0x8, 0x4, 0x0, 0x0, 0x0)
+	/usr/local/go/src/io/io.go:298 +0xf1
+io.ReadFull(0x7f00478e4dc8, 0xc2081766c0, 0xc208179138, 0x4, 0x8, 0x0, 0x0, 0x0)
+	/usr/local/go/src/io/io.go:316 +0x6d
+encoding/binary.Read(0x7f00478e4dc8, 0xc2081766c0, 0x7f00478e4df0, 0xc6c2f8, 0x7e1ee0, 0xc208179130, 0x0, 0x0)
+	/usr/local/go/src/encoding/binary/binary.go:148 +0x12d
+github.com/bitly/go-nsq.ReadResponse(0x7f00478e4dc8, 0xc2081766c0, 0x0, 0x0, 0x0, 0x0, 0x0)
+	/home/wuxiangan/goserver/src/github.com/bitly/go-nsq/protocol.go:54 +0x103
+github.com/bitly/go-nsq.ReadUnpackedResponse(0x7f00478e4dc8, 0xc2081766c0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0)
+	/home/wuxiangan/goserver/src/github.com/bitly/go-nsq/protocol.go:91 +0x71
+github.com/bitly/go-nsq.(*Conn).readLoop(0xc2081766c0)
+	/home/wuxiangan/goserver/src/github.com/bitly/go-nsq/conn.go:481 +0x2da
+created by github.com/bitly/go-nsq.(*Conn).Connect
+	/home/wuxiangan/goserver/src/github.com/bitly/go-nsq/conn.go:181 +0x7e4
+
+goroutine 12 [select]:
+github.com/bitly/go-nsq.(*Conn).writeLoop(0xc2081766c0)
+	/home/wuxiangan/goserver/src/github.com/bitly/go-nsq/conn.go:547 +0x952
+created by github.com/bitly/go-nsq.(*Conn).Connect
+	/home/wuxiangan/goserver/src/github.com/bitly/go-nsq/conn.go:182 +0x801
+
+goroutine 13 [select]:
+github.com/bitly/go-nsq.(*Producer).router(0xc208054400)
+	/home/wuxiangan/goserver/src/github.com/bitly/go-nsq/producer.go:290 +0x6bf
+created by github.com/bitly/go-nsq.(*Producer).connect
+	/home/wuxiangan/goserver/src/github.com/bitly/go-nsq/producer.go:270 +0x781

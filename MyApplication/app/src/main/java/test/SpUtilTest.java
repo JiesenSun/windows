@@ -14,7 +14,6 @@ import util.SpUtil;
 public class SpUtilTest extends InstrumentationTestCase {
     private String mTestKey = "test_key";
     public void testRemove() {
-
         Log.d(this.getName(), "remove");
     }
 

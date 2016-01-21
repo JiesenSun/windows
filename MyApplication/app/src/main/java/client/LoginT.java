@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
 import java.nio.ByteBuffer;
-import protocol.BaseData;
+import socket.java_socket.BaseData;
 
 /**
  * Created by wuxiangan on 2016/1/7.

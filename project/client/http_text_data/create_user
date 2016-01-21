@@ -1,0 +1,4 @@
+#!/bin/sh
+#curl -X POST 127.0.0.1:3001/rest/users -d  '[{"uid":100000,"password":"test"}]'
+#curl -X POST 192.168.20.51:3001/rest/users -d  '[{"uid":100000,"password":"test"}]'
+curl -X POST 112.74.66.141:3000/rest/users -d  '[{"uid":1000001,"password":"test"}]'

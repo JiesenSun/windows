@@ -8,10 +8,10 @@ import org.json.JSONObject;
 
 import java.nio.ByteBuffer;
 
-import protocol.BaseData;
-import socket.Socket;
-import socket.SocketCallback;
-import util.Logger;
+import socket.java_socket.BaseData;
+import socket.java_socket.Socket;
+import socket.java_socket.SocketCallback;
+import util.java.Logger;
 
 /**
  * Created by wuxiangan on 2016/1/5.

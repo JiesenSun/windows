@@ -1,6 +1,5 @@
 package ui.base;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
@@ -8,7 +7,7 @@ import android.text.TextUtils;
 import android.os.Handler;
 
 import application.Config;
-import socket.Socket;
+import socket.java_socket.Socket;
 import ui.LoginActivity;
 
 /**

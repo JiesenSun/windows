@@ -1,0 +1,11 @@
+package protocol;
+//注册请求包
+message register_request {
+	required string username = 1;
+	required string password = 2;
+}
+//注册响应包
+message register_response {
+	required uint32 error_code = 1; 
+	optional uint64 user_id = 2 [default=0];
+}
