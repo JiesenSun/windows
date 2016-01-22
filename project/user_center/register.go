@@ -4,9 +4,9 @@ import (
 	"project/common/errors"
 	"project/common/protocol"
 	"project/common/syslog"
+	"project/model/user"
 
 	"github.com/golang/protobuf/proto"
-	"project/model/user"
 )
 
 func (h *DBHandler) Register(head *protocol.PackageHead, jsonBody []byte, tail *protocol.PackageTail) (result []byte) {

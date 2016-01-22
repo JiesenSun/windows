@@ -19,6 +19,14 @@ public class ActivityCollector {
         activityList.remove(activity);
     }
 
+    public static void finish(Class<?> cls) {
+        for (Activity activity : activityList) {
+            if (activity.getClass() == cls) {
+                activity.finish();
+            }
+        }
+    }
+
     public static int activityNum() {
         return activityList.size();
     }

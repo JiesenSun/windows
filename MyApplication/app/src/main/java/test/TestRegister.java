@@ -5,16 +5,16 @@ import android.test.InstrumentationTestCase;
 import com.google.protobuf.InvalidProtocolBufferException;
 
 import protocol.Protocol;
-import socket.go_socket.Receiver;
-import socket.go_socket.Socket;
+import socket.Receiver;
+import socket.Socket;
 
 /**
  * Created by wuxiangan on 2016/1/21.
  */
 public class TestRegister extends InstrumentationTestCase {
     public void testRegister() {
-        /*
-        if (!Socket.connect("192.168.20.25", 8888)) {
+        Socket socket = new Socket();
+        if (!socket.connect("192.168.20.25", 8888)) {
             System.out.println("connect server failed!!!");
             return;
         }
@@ -22,7 +22,7 @@ public class TestRegister extends InstrumentationTestCase {
         builder.setUsername("18702759796");
         builder.setPassword("wuxiangan");
         Protocol.register_request register_request = builder.build();
-        Socket.send(10001, register_request.toByteArray(), new Receiver() {
+        socket.send(10001, register_request.toByteArray(), new Receiver() {
             @Override
             public void handle(byte[] data) {
                 Protocol.register_response register_response = null;
@@ -35,6 +35,6 @@ public class TestRegister extends InstrumentationTestCase {
                 System.out.println(register_response.toString());
             }
         });
-        */
+        while(true){}
     }
 }

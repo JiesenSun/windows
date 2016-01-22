@@ -7,32 +7,25 @@ import android.text.TextUtils;
 import android.os.Handler;
 
 import application.Config;
-import socket.java_socket.Socket;
+import socket.Receiver;
 import ui.LoginActivity;
 
 /**
  * Created by wuxiangan on 2016/1/15.
  */
 public class StartActivity extends BaseActivity {
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-        }
-    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Socket.setCallbackHandler(handler);
-
+        //Receiver.setHandler(new Handler(this.getMainLooper()));
         String username = Config.getUsername();
         String password = Config.getPassword();
         if (!TextUtils.isEmpty(username) && !TextUtils.isEmpty(password)) {
-            // LoginReq
+            LoginActivity.actionStart(this, username, password);
         } else {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
         }
+        finish();
     }
 }

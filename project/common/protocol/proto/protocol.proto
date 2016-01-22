@@ -1,4 +1,14 @@
 package protocol;
+//登录请求包
+message login_request {
+	required string username = 1;
+	required string password = 2;
+}
+message login_response {
+	required uint32 error_code = 1;
+	required uint64 user_id = 2; 
+}
+
 //注册请求包
 message register_request {
 	required string username = 1;

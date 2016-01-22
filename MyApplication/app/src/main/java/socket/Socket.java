@@ -1,7 +1,7 @@
-package socket.go_socket;
+package socket;
 
-import java.util.concurrent.ConcurrentHashMap;
 import go.client.Client;
+import socket.Receiver;
 
 /**
  * Created by wuxiangan on 2016/1/21.
@@ -17,7 +17,7 @@ public class Socket {
         return socket.Connect(ip, port);
     }
 
-    public void send(long cmd, byte[] data,Receiver receiver) {
+    public void send(long cmd, byte[] data, Receiver receiver) {
         socket.Send(cmd, data, receiver);
     }
 

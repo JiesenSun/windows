@@ -1,5 +1,6 @@
 package ui.base;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -32,18 +33,21 @@ public class TitleLayout extends LinearLayout{
         titleLeft.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ActivityCollector.activityNum() == 2) {
+                if (ActivityCollector.activityNum() == 1) {
                     AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
                     dialog.setTitle(R.string.exit_tip);
                     dialog.setCancelable(false);
                     dialog.setPositiveButton(R.string.OK, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            ActivityCollector.finishAll();
+                            //ActivityCollector.finishAll();
+                            ((Activity)getContext()).finish();
                         }
                     });
                     dialog.setNegativeButton(R.string.CANCEL,null);
                     dialog.show();
+                } else {
+                    ((Activity)getContext()).finish();
                 }
             }
         });

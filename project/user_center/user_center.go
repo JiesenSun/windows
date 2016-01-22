@@ -38,7 +38,7 @@ func (h *DBHandler) HandleMessage(message *nsq.Message) error {
 	case protocol.CLIENT_CMD_USER_REGISTER:
 		resp = h.Register(head, jsonStr, tail)
 	case protocol.CLIENT_CMD_USER_LOGIN:
-		resp, err = h.Login(head, jsonStr, tail)
+		resp = h.Login(head, jsonStr, tail)
 	default:
 		syslog.Debug("invalid cmd:", head.Command, *tail)
 		return nil

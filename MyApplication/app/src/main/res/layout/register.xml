@@ -9,4 +9,10 @@
         android:id="@+id/register_et"
         android:hint="@string/phonenumber_input_tip"
         android:gravity="center"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/next_btn"
+        android:text="下一步"/>
 </LinearLayout>

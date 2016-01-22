@@ -21,7 +21,7 @@ func (*RegisterReceiver) Run(data []byte) {
 func TestRegister(t *testing.T) {
 	socket := NewSocket()
 	println("------------statt test-----------")
-	if !socket.Connect("10.0.2.15", 8888) {
+	if !socket.Connect("10.0.2.15", 8881) {
 		panic("connect server failed")
 	}
 
